@@ -7,6 +7,10 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
+flask = "*"
+flask-migrate = "*"
+flask-sqlalchemy = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

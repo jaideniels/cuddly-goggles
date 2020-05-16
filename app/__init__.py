@@ -2,10 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+db = SQLAlchemy
+
 app = Flask(__name__)
-db = SQLAlchemy(app)
+app.config.from_pyfile('../config.py')
 migrate = Migrate(app, db)
 
-@app.route('/')
-def index():
-    return '<h1>hello world</h1>'
+from app import routes
