@@ -1,0 +1,9 @@
+version: '3'
+services:
+  stacks-web:
+    build: .
+    volumes:
+      - /Users/jaydan/code/stacks/app:/stacks/app
+    ports:
+      - "8000:5000"
+      - "5678:5678"

@@ -1,4 +1,5 @@
-from app import app
+import os
+from app import app, db
+import ptvsd
 
-if __name__ == '__main__':
-    app.run()
+ptvsd.enable_attach(address=('0.0.0.0', 5678))
