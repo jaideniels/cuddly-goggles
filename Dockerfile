@@ -2,7 +2,7 @@ FROM python:3.7.5-alpine
 
 RUN adduser -D stacks
 
-WORKDIR /home/stacks
+WORKDIR /stacks
 
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
