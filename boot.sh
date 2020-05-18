@@ -1,6 +1,4 @@
 #!/bin/sh
-source venv/bin/activate
+. venv/bin/activate
 
-echo "hi jay!"
-
-exec gunicorn --reload -b :5000 --access-logfile - --error-logfile - stacks:app
+exec gunicorn --reload -b :8000 --access-logfile - --error-logfile - stacks:app

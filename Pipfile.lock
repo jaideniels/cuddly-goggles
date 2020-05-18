@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cabffb69a35062cc2097f6d85ed098a3f7ae67c4ace74f8c31f084b5433e0a42"
+            "sha256": "1cf8e76f4b8e28b36ff604404432a32f0320179c1d1a10839e9f51c676023aca"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -44,6 +44,14 @@
             ],
             "index": "pypi",
             "version": "==2.5.3"
+        },
+        "flask-mysql": {
+            "hashes": [
+                "sha256:7946e6367eaf1d87df3ae6b06af07b33fcd7cc8c04a9d0be2d208f23311d25e5",
+                "sha256:fea58ef9de703b91adcbeb16d2899b97375ff1ef5dc5c404d4ed06ae8cc27566"
+            ],
+            "index": "pypi",
+            "version": "==1.5.1"
         },
         "flask-sqlalchemy": {
             "hashes": [
@@ -142,6 +150,13 @@
             ],
             "index": "pypi",
             "version": "==4.3.2"
+        },
+        "pymysql": {
+            "hashes": [
+                "sha256:3943fbbbc1e902f41daf7f9165519f140c4451c179380677e6a848587042561a",
+                "sha256:d8c059dcd81dedb85a9f034d5e22dcb4442c0b201908bede99e306d65ea7c8e7"
+            ],
+            "version": "==0.9.3"
         },
         "python-dateutil": {
             "hashes": [
@@ -277,6 +292,20 @@
             ],
             "index": "pypi",
             "version": "==2.5.2"
+        },
+        "pylint-flask": {
+            "hashes": [
+                "sha256:f4d97de2216bf7bfce07c9c08b166e978fe9f2725de2a50a9845a97de7e31517"
+            ],
+            "index": "pypi",
+            "version": "==0.6"
+        },
+        "pylint-plugin-utils": {
+            "hashes": [
+                "sha256:2f30510e1c46edf268d3a195b2849bd98a1b9433229bb2ba63b8d776e1fc4d0a",
+                "sha256:57625dcca20140f43731311cd8fd879318bf45a8b0fd17020717a8781714a25a"
+            ],
+            "version": "==0.6"
         },
         "six": {
             "hashes": [
