@@ -11,8 +11,8 @@ deploy:
       - ./db/kubernetes/*
 portForward:
   - resourceType: deployment
-    resourceName: stacks-web
-    port: 8080
+    resourceName: stacks-svc
+    port: 9000
     localPort: 9000
   - resourceType: deployment
     resourceName: stacks-web
