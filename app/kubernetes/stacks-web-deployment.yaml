@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacks-web
+  labels:
+    app: stacks-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stacks-web
+  template:
+    metadata:
+      labels:
+        app: stacks-web
+    spec:
+      containers:
+      - name: stacks-web
+        image: stacks-web
+        ports:
+          - containerPort: 8080
+            containerPort: 5678
+        env:
+          - name: STACKS_MYSQL_DATABASE
+            value: stacks
+          - name: STACKS_MYSQL_HOST
+            value: stacks-db
+          - name: STACKS_MYSQL_PORT
+            value: "3306"
+          - name: STACKS_MYSQL_ROOT_PASSWORD
+            value: DhDQLupThgn5
+          - name: STACKS_MYSQL_USER
+            value: stacks

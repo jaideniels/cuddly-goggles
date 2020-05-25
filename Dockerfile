@@ -19,7 +19,7 @@ ENV FLASK_APP stacks.py
 RUN chown -R stacks:stacks ./
 
 USER stacks
-EXPOSE 5000
+EXPOSE 8080
 EXPOSE 5678
 
 ENTRYPOINT ["./boot.sh"]

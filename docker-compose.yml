@@ -13,7 +13,7 @@ services:
       STACKS_MYSQL_DATABASE: stacks
       STACKS_MYSQL_PORT: 3306
     ports:
-      - "8000:8000"
+      - "8080:8080"
       - "5678:5678"
   mysql-db:
     image: mysql
