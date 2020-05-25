@@ -12,6 +12,7 @@ flask-sqlalchemy = "*"
 ptvsd = "*"
 python-dotenv = "*"
 flask-mysql = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.7"
