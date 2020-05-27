@@ -6,13 +6,16 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+cryptography = "*"
 flask = "*"
+flask-marshmallow = "*"
 flask-migrate = "*"
+flask-mysql = "*"
+flask-smorest = "*"
 flask-sqlalchemy = "*"
+marshmallow-sqlalchemy = "*"
 ptvsd = "*"
 python-dotenv = "*"
-flask-mysql = "*"
-cryptography = "*"
 
 [requires]
 python_version = "3.7"
