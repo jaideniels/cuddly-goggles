@@ -64,7 +64,7 @@ class Fact(db.Model):
     card_id = db.Column(db.Integer, db.ForeignKey('card.id'))
 
     # Columns
-    text = db.Column(db.String(128))
+    fact = db.Column(db.String(128))
 
     # Relationships
     card = db.relationship('Card', back_populates='facts')
@@ -87,6 +87,10 @@ class Clue(db.Model):
     card = db.relationship('Card', back_populates='clues')
     scores = db.relationship('Score', back_populates='clue')
     facts = association_proxy('clue_facts', 'fact', creator=lambda fact: ClueFact(fact=fact))
+
+    def __init__(self, facts):
+        for fact in facts:
+            self.facts.append(fact)
 
 
 class Game(db.Model):
@@ -114,15 +118,15 @@ class Score(db.Model):
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
 
     # Columns
-    value = db.Column(db.Integer)
+    score = db.Column(db.Integer)
 
     # Relationships
     user = db.relationship('User', back_populates='scores')
     clue = db.relationship('Clue', back_populates='scores')
     game = db.relationship('Game', back_populates='scores')
 
-    def __init__(self, value, user=None, clue=None, game=None):
-        self.value = value
+    def __init__(self, score, user=None, clue=None, game=None):
+        self.score = score
         self.user = user
         self.clue = clue
         self.game = game

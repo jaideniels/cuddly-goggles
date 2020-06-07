@@ -1,5 +1,21 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from .models import User, Stack, Card
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
+from .models import User, Stack, Card, Clue, Fact
+
+
+class FactSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Fact
+        include_relationship = False
+        load_instance = True
+
+
+class ClueSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Clue
+        include_relationship = False
+        load_instance = True
+
+    facts = fields.Nested(FactSchema, many=True)
 
 
 class UserSchema(SQLAlchemyAutoSchema):
@@ -21,3 +37,6 @@ class CardSchema(SQLAlchemyAutoSchema):
         model = Card
         include_relationships = False
         load_instance = True
+
+    facts = fields.Nested(FactSchema, many=True)
+    clues = fields.Nested(ClueSchema, many=True)
