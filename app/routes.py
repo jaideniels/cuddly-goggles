@@ -1,5 +1,6 @@
 from flask_smorest import Blueprint
 from flask.views import MethodView
+from flask import request
 
 from app import db
 from .models import User, Stack, Card, Fact, Clue
@@ -7,6 +8,22 @@ from .schemas import UserSchema, StackSchema, CardSchema
 
 
 blp = Blueprint('root', __name__, url_prefix='/v1')
+
+
+@blp.route('/users/')
+class Users(MethodView):
+
+    @blp.response(UserSchema(many=True))
+    def get(self):
+        users = User.query.all()
+        return users
+
+    @blp.arguments(UserSchema)
+    @blp.response(UserSchema, code=201)
+    def post(self, user):
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 
 @blp.route('/users/<user_id>')
@@ -18,6 +35,22 @@ class UserById(MethodView):
         return user
 
 
+@blp.route('/stacks/')
+class Stacks(MethodView):
+
+    @blp.response(StackSchema(many=True))
+    def get(self):
+        stacks = Stack.query.all()
+        return stacks
+
+    @blp.arguments(StackSchema)
+    @blp.response(UserSchema, code=201)
+    def post(self, stack):
+        db.session.add(stack)
+        db.session.commit()
+        return stack
+
+
 @blp.route('/stacks/<stack_id>')
 class StackById(MethodView):
 
@@ -25,6 +58,31 @@ class StackById(MethodView):
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         return stack
+
+
+@blp.route('/cards/')
+class Cards(MethodView):
+
+    @blp.response(CardSchema(many=True))
+    def get(self):
+        cards = Card.query.all()
+        return cards
+
+    @blp.response(CardSchema, code=201)
+    def post(self):
+        json = request.get_json()
+        card = Card(name=json['name'])
+
+        for json_fact in json['facts']:
+            json_fact_value = json_fact['fact']
+            fact = Fact(json_fact_value)
+            card.facts.append(fact)
+            clue = Clue([fact])
+            card.clues.append(clue)
+
+        db.session.add(card)
+        db.session.commit()
+        return card
 
 
 @blp.route('/stacks/<stack_id>/cards')

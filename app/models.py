@@ -9,7 +9,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # Columns
-    name = db.Column(db.String(128))
+    name = db.Column(db.String(128), unique=True)
 
     # Relationship
     stacks = association_proxy('user_stacks', 'stack',  creator=lambda stack: UserStack(stack=stack))

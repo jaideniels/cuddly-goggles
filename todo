@@ -1,0 +1,31 @@
+x recreate db schema to validate model changes
+x add cards/clues/facts in recreate script
+x recreate db again
+x update marshmallow schema for cards/clues/facts
+x test clues and facts json render
+x post endpoints cards/clues/facts
+- game score sample data
+- recreate db with json data
+
+
+- bearer auth
+- user management
+- authentication
+- authorization
+- sign-in with apple
+
+- react project integration
+- web admin ui
+- web card management
+- web games
+
+- kubefwd
+- tls
+- hosting
+- rerouted local prod debug
+
+- project local venv
+- pin pipfile versions
+- postman integration
+
+- iphone client
