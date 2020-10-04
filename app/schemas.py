@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
-from .models import User, Stack, Card, Clue, Fact
+from .models import User, Stack, Card, Clue, Fact, Score
 from app import db
 
 
@@ -46,3 +46,11 @@ class CardSchema(SQLAlchemyAutoSchema):
 
     facts = fields.Nested(FactSchema, many=True)
     clues = fields.Nested(ClueSchema, many=True)
+
+
+class ScoreSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Score
+        include_relationships = True
+        load_instance = True
+        sqla_session = db.session

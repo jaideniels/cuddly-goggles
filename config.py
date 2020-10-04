@@ -12,3 +12,6 @@ class Config(object):
         f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_DATABASE_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     OPENAPI_VERSION = '3.0.2'
+    OPENAPI_URL_PREFIX = '/docs'
+    OPENAPI_SWAGGER_UI_PATH = '/swagger'
+    OPENAPI_SWAGGER_UI_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.19.5/'

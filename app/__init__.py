@@ -15,4 +15,7 @@ api = Api(app)
 
 from app import routes  # noqa: E402 F401
 
-api.register_blueprint(routes.blp)
+api.register_blueprint(routes.admin_blp)
+api.register_blueprint(routes.stacks_blp)
+api.register_blueprint(routes.cards_blp)
+api.register_blueprint(routes.scores_blp)

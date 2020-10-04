@@ -105,6 +105,9 @@ class Game(db.Model):
     # Relationships
     scores = db.relationship('Score', back_populates='game')
 
+    def __init__(self, name):
+        self.name = name
+
 
 class Score(db.Model):
     __tablename__ = 'score'
