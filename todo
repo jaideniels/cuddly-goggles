@@ -4,17 +4,27 @@ x recreate db again
 x update marshmallow schema for cards/clues/facts
 x test clues and facts json render
 x post endpoints cards/clues/facts
-- game score sample data
+x swagger ui
+x separate blueprints
+x get/post for score
+x game score sample data
+- stacks POST should be array
 - recreate db with json data
+- multiple api versions with namespaces
 
+x fix 'Different lower_case_table_names settings for server' error
+x re-enable gRPC FUSE fs locally
 
+- i mean... change the db password
+- and then get the password out of k8 yaml
 - bearer auth
 - user management
 - authentication
 - authorization
-- sign-in with apple
+? sign-in with apple
 
 - react project integration
+- render tables
 - web admin ui
 - web card management
 - web games
@@ -24,8 +34,9 @@ x post endpoints cards/clues/facts
 - hosting
 - rerouted local prod debug
 
+- upgrade ptvsd to debugpy
 - project local venv
 - pin pipfile versions
 - postman integration
 
-- iphone client
+- skeleton iphone client

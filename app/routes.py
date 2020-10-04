@@ -3,72 +3,75 @@ from flask.views import MethodView
 from flask import request
 
 from app import db
-from .models import User, Stack, Card, Fact, Clue
-from .schemas import UserSchema, StackSchema, CardSchema
+from .models import User, Stack, Card, Fact, Clue, Game, Score
+from .schemas import UserSchema, StackSchema, CardSchema, ScoreSchema
 
 
-blp = Blueprint('root', __name__, url_prefix='/v1')
+admin_blp = Blueprint('admin', __name__, url_prefix='/v1')
+stacks_blp = Blueprint('stacks', __name__, url_prefix="/v1")
+cards_blp = Blueprint('cards', __name__, url_prefix="/v1")
+scores_blp = Blueprint('scores', __name__, url_prefix="/v1")
 
 
-@blp.route('/users/')
+@admin_blp.route('/users/')
 class Users(MethodView):
 
-    @blp.response(UserSchema(many=True))
+    @admin_blp.response(UserSchema(many=True))
     def get(self):
         users = User.query.all()
         return users
 
-    @blp.arguments(UserSchema)
-    @blp.response(UserSchema, code=201)
+    @admin_blp.arguments(UserSchema)
+    @admin_blp.response(UserSchema, code=201)
     def post(self, user):
         db.session.add(user)
         db.session.commit()
         return user
 
 
-@blp.route('/users/<user_id>')
+@admin_blp.route('/users/<user_id>')
 class UserById(MethodView):
 
-    @blp.response(UserSchema)
+    @admin_blp.response(UserSchema)
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         return user
 
 
-@blp.route('/stacks/')
+@stacks_blp.route('/stacks/')
 class Stacks(MethodView):
 
-    @blp.response(StackSchema(many=True))
+    @stacks_blp.response(StackSchema(many=True))
     def get(self):
         stacks = Stack.query.all()
         return stacks
 
-    @blp.arguments(StackSchema)
-    @blp.response(UserSchema, code=201)
+    @stacks_blp.arguments(StackSchema)
+    @stacks_blp.response(StackSchema, code=201)
     def post(self, stack):
         db.session.add(stack)
         db.session.commit()
         return stack
 
 
-@blp.route('/stacks/<stack_id>')
+@stacks_blp.route('/stacks/<stack_id>')
 class StackById(MethodView):
 
-    @blp.response(StackSchema)
+    @stacks_blp.response(StackSchema)
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         return stack
 
 
-@blp.route('/cards/')
+@cards_blp.route('/cards/')
 class Cards(MethodView):
 
-    @blp.response(CardSchema(many=True))
+    @cards_blp.response(CardSchema(many=True))
     def get(self):
         cards = Card.query.all()
         return cards
 
-    @blp.response(CardSchema, code=201)
+    @cards_blp.response(CardSchema, code=201)
     def post(self):
         json = request.get_json()
         card = Card(name=json['name'])
@@ -85,27 +88,48 @@ class Cards(MethodView):
         return card
 
 
-@blp.route('/stacks/<stack_id>/cards')
+@cards_blp.route('/stacks/<stack_id>/cards')
 class CardsByStackById(MethodView):
 
-    @blp.response(CardSchema(many=True))
+    @cards_blp.response(CardSchema(many=True))
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         cards = stack.cards
         return cards
 
 
-@blp.route('/users/<user_id>/stacks')
+@stacks_blp.route('/users/<user_id>/stacks')
 class StacksByUserById(MethodView):
 
-    @blp.response(StackSchema(many=True))
+    @stacks_blp.response(StackSchema(many=True))
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         stacks = user.stacks
         return stacks
 
 
-@blp.route('/recreatedb/')
+@scores_blp.route('/scores')
+class Scores(MethodView):
+
+    @scores_blp.arguments(ScoreSchema)
+    @scores_blp.response(ScoreSchema, code=201)
+    def post(self, score):
+        db.session.add(score)
+        db.session.commit()
+        return score
+
+
+@scores_blp.route('/users/<user_id>/scores')
+class ScoresByUserId(MethodView):
+
+    @scores_blp.response(ScoreSchema(many=True))
+    def get(self, user_id):
+        user = db.session.query(User).get_or_404(user_id)
+        scores = user.scores
+        return scores
+
+
+@admin_blp.route('/recreatedb/')
 def recreate():
     db.drop_all()
     db.create_all()
@@ -177,6 +201,19 @@ def recreate():
     orange_card.facts.append(english_orange_fact)
     orange_card.facts.append(zhongwen_orange_fact)
     orange_card.facts.append(hanyu_orange_fact)
+
+    # game
+    game = Game('learn')
+    db.session.add(game)
+
+    # scores
+    english_red_score = Score(5, user=user, clue=english_red_clue, game=game)
+    zhongwen_red_score = Score(5, user=user, clue=zhongwen_red_clue, game=game)
+    hanyu_red_score = Score(5, user=user, clue=hanyu_red_clue, game=game)
+
+    db.session.add(english_red_score)
+    db.session.add(zhongwen_red_score)
+    db.session.add(hanyu_red_score)
 
     # commit the changes
     db.session.commit()
