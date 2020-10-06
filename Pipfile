@@ -14,7 +14,7 @@ flask-mysql = "*"
 flask-smorest = "*"
 flask-sqlalchemy = "*"
 marshmallow-sqlalchemy = "*"
-ptvsd = "*"
+debugpy = "*"
 python-dotenv = "*"
 
 [requires]

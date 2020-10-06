@@ -15,3 +15,5 @@ class Config(object):
     OPENAPI_URL_PREFIX = '/docs'
     OPENAPI_SWAGGER_UI_PATH = '/swagger'
     OPENAPI_SWAGGER_UI_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.19.5/'
+    API_TITLE = 'stacks'
+    API_VERSION = 'v0.1'
