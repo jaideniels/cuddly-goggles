@@ -1,5 +1,5 @@
-import ptvsd
+import debugpy
 
 from app import app, db
 
-ptvsd.enable_attach(address=('0.0.0.0', 5678))
+debugpy.listen(5678)

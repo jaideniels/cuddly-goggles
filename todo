@@ -37,6 +37,6 @@ x re-enable gRPC FUSE fs locally
 - upgrade ptvsd to debugpy
 - project local venv
 - pin pipfile versions
-- postman integration
+x postman integration
 
 - skeleton iphone client
