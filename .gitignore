@@ -5,3 +5,6 @@ __pycache__/
 # pipenv
 venv/
 .venv/
+
+# macOS files
+.DS_Store

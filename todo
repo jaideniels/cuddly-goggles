@@ -21,7 +21,6 @@ x re-enable gRPC FUSE fs locally
 - user management
 - authentication
 - authorization
-? sign-in with apple
 
 - react project integration
 - render tables
@@ -34,9 +33,10 @@ x re-enable gRPC FUSE fs locally
 - hosting
 - rerouted local prod debug
 
-- upgrade ptvsd to debugpy
-- project local venv
+x upgrade ptvsd to debugpy
+? project local venv
 - pin pipfile versions
 x postman integration
+- gh cli
 
 - skeleton iphone client
