@@ -1,5 +1,6 @@
-import debugpy
+#import debugpy
 
 from app import app, db
 
-debugpy.listen(5678)
+#if app.config['DEBUG'] == True:
+#    debugpy.listen(5678)

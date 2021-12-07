@@ -16,6 +16,7 @@ flask-sqlalchemy = "*"
 marshmallow-sqlalchemy = "*"
 debugpy = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9.9"

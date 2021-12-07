@@ -16,13 +16,13 @@ scores_blp = Blueprint('scores', __name__, url_prefix="/v1")
 @admin_blp.route('/users/')
 class Users(MethodView):
 
-    @admin_blp.response(UserSchema(many=True))
+    @admin_blp.response(200, UserSchema(many=True))
     def get(self):
         users = User.query.all()
         return users
 
     @admin_blp.arguments(UserSchema)
-    @admin_blp.response(UserSchema, code=201)
+    @admin_blp.response(201, UserSchema)
     def post(self, user):
         db.session.add(user)
         db.session.commit()
@@ -32,7 +32,7 @@ class Users(MethodView):
 @admin_blp.route('/users/<user_id>')
 class UserById(MethodView):
 
-    @admin_blp.response(UserSchema)
+    @admin_blp.response(200, UserSchema)
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         return user
@@ -41,13 +41,13 @@ class UserById(MethodView):
 @stacks_blp.route('/stacks/')
 class Stacks(MethodView):
 
-    @stacks_blp.response(StackSchema(many=True))
+    @stacks_blp.response(200, StackSchema(many=True))
     def get(self):
         stacks = Stack.query.all()
         return stacks
 
     @stacks_blp.arguments(StackSchema)
-    @stacks_blp.response(StackSchema, code=201)
+    @stacks_blp.response(201, StackSchema)
     def post(self, stack):
         db.session.add(stack)
         db.session.commit()
@@ -57,7 +57,7 @@ class Stacks(MethodView):
 @stacks_blp.route('/stacks/<stack_id>')
 class StackById(MethodView):
 
-    @stacks_blp.response(StackSchema)
+    @stacks_blp.response(200, StackSchema)
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         return stack
@@ -66,12 +66,12 @@ class StackById(MethodView):
 @cards_blp.route('/cards/')
 class Cards(MethodView):
 
-    @cards_blp.response(CardSchema(many=True))
+    @cards_blp.response(200, CardSchema(many=True))
     def get(self):
         cards = Card.query.all()
         return cards
 
-    @cards_blp.response(CardSchema, code=201)
+    @cards_blp.response(201, CardSchema)
     def post(self):
         json = request.get_json()
         card = Card(name=json['name'])
@@ -91,7 +91,7 @@ class Cards(MethodView):
 @cards_blp.route('/stacks/<stack_id>/cards')
 class CardsByStackById(MethodView):
 
-    @cards_blp.response(CardSchema(many=True))
+    @cards_blp.response(200, CardSchema(many=True))
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         cards = stack.cards
@@ -101,7 +101,7 @@ class CardsByStackById(MethodView):
 @stacks_blp.route('/users/<user_id>/stacks')
 class StacksByUserById(MethodView):
 
-    @stacks_blp.response(StackSchema(many=True))
+    @stacks_blp.response(200, StackSchema(many=True))
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         stacks = user.stacks
@@ -112,7 +112,7 @@ class StacksByUserById(MethodView):
 class Scores(MethodView):
 
     @scores_blp.arguments(ScoreSchema)
-    @scores_blp.response(ScoreSchema, code=201)
+    @scores_blp.response(201, ScoreSchema)
     def post(self, score):
         db.session.add(score)
         db.session.commit()
@@ -122,7 +122,7 @@ class Scores(MethodView):
 @scores_blp.route('/users/<user_id>/scores')
 class ScoresByUserId(MethodView):
 
-    @scores_blp.response(ScoreSchema(many=True))
+    @scores_blp.response(200, ScoreSchema(many=True))
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         scores = user.scores
