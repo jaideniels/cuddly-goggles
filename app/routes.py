@@ -2,27 +2,27 @@ from flask_smorest import Blueprint
 from flask.views import MethodView
 from flask import request
 
-from app import db
+from app import db, auth
 from .models import User, Stack, Card, Fact, Clue, Game, Score
 from .schemas import UserSchema, StackSchema, CardSchema, ScoreSchema
-
 
 admin_blp = Blueprint('admin', __name__, url_prefix='/v1')
 stacks_blp = Blueprint('stacks', __name__, url_prefix="/v1")
 cards_blp = Blueprint('cards', __name__, url_prefix="/v1")
 scores_blp = Blueprint('scores', __name__, url_prefix="/v1")
 
-
 @admin_blp.route('/users/')
 class Users(MethodView):
 
     @admin_blp.response(200, UserSchema(many=True))
+    @auth.login_required
     def get(self):
         users = User.query.all()
         return users
 
     @admin_blp.arguments(UserSchema)
     @admin_blp.response(201, UserSchema)
+    @auth.login_required
     def post(self, user):
         db.session.add(user)
         db.session.commit()
@@ -33,6 +33,7 @@ class Users(MethodView):
 class UserById(MethodView):
 
     @admin_blp.response(200, UserSchema)
+    @auth.login_required
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         return user
@@ -42,12 +43,14 @@ class UserById(MethodView):
 class Stacks(MethodView):
 
     @stacks_blp.response(200, StackSchema(many=True))
+    @auth.login_required
     def get(self):
         stacks = Stack.query.all()
         return stacks
 
     @stacks_blp.arguments(StackSchema)
     @stacks_blp.response(201, StackSchema)
+    @auth.login_required
     def post(self, stack):
         db.session.add(stack)
         db.session.commit()
@@ -58,6 +61,7 @@ class Stacks(MethodView):
 class StackById(MethodView):
 
     @stacks_blp.response(200, StackSchema)
+    @auth.login_required
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         return stack
@@ -67,11 +71,13 @@ class StackById(MethodView):
 class Cards(MethodView):
 
     @cards_blp.response(200, CardSchema(many=True))
+    @auth.login_required
     def get(self):
         cards = Card.query.all()
         return cards
 
     @cards_blp.response(201, CardSchema)
+    @auth.login_required
     def post(self):
         json = request.get_json()
         card = Card(name=json['name'])
@@ -92,6 +98,7 @@ class Cards(MethodView):
 class CardsByStackById(MethodView):
 
     @cards_blp.response(200, CardSchema(many=True))
+    @auth.login_required
     def get(self, stack_id):
         stack = db.session.query(Stack).get_or_404(stack_id)
         cards = stack.cards
@@ -102,6 +109,7 @@ class CardsByStackById(MethodView):
 class StacksByUserById(MethodView):
 
     @stacks_blp.response(200, StackSchema(many=True))
+    @auth.login_required
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         stacks = user.stacks
@@ -113,6 +121,7 @@ class Scores(MethodView):
 
     @scores_blp.arguments(ScoreSchema)
     @scores_blp.response(201, ScoreSchema)
+    @auth.login_required
     def post(self, score):
         db.session.add(score)
         db.session.commit()
@@ -123,6 +132,7 @@ class Scores(MethodView):
 class ScoresByUserId(MethodView):
 
     @scores_blp.response(200, ScoreSchema(many=True))
+    @auth.login_required
     def get(self, user_id):
         user = db.session.query(User).get_or_404(user_id)
         scores = user.scores
@@ -130,6 +140,7 @@ class ScoresByUserId(MethodView):
 
 
 @admin_blp.route('/recreatedb/')
+@auth.login_required
 def recreate():
     db.drop_all()
     db.create_all()
