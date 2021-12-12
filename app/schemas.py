@@ -9,6 +9,7 @@ class FactSchema(SQLAlchemyAutoSchema):
         include_relationship = False
         load_instance = True
         sqla_session = db.session
+        dump_only = ('id')
 
 
 class ClueSchema(SQLAlchemyAutoSchema):
@@ -17,9 +18,9 @@ class ClueSchema(SQLAlchemyAutoSchema):
         include_relationship = False
         load_instance = True
         sqla_session = db.session
+        dump_only = ('id')
 
     facts = fields.Nested(FactSchema, many=True)
-
 
 class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -27,26 +28,29 @@ class UserSchema(SQLAlchemyAutoSchema):
         include_relationships = False
         load_instance = True
         sqla_session = db.session
+        dump_only = ('id')
 
+class CardSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        ordered = True
+        model = Card
+        include_relationships = True
+        load_instance = True
+        sqla_session = db.session
+        dump_only = ('id')
 
-class StackSchema(SQLAlchemyAutoSchema):
+    facts = fields.Nested(FactSchema, many=True)
+    clues = fields.Nested(ClueSchema, many=True)
+
+class StackSchema(SQLAlchemyAutoSchema): 
     class Meta:
         model = Stack
         include_relationships = False
         load_instance = True
         sqla_session = db.session
+        dump_only = ('id')
 
-
-class CardSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Card
-        include_relationships = False
-        load_instance = True
-        sqla_session = db.session
-
-    facts = fields.Nested(FactSchema, many=True)
-    clues = fields.Nested(ClueSchema, many=True)
-
+    cards = fields.Nested(CardSchema, many=True)
 
 class ScoreSchema(SQLAlchemyAutoSchema):
     class Meta:
