@@ -9,7 +9,7 @@ class FactSchema(SQLAlchemyAutoSchema):
         include_relationship = False
         load_instance = True
         sqla_session = db.session
-        dump_only = ('id')
+        #dump_only = ('id')
 
 
 class ClueSchema(SQLAlchemyAutoSchema):
@@ -37,7 +37,7 @@ class CardSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         sqla_session = db.session
-        dump_only = ('id')
+        #dump_only = ('id', 'clues')
 
     facts = fields.Nested(FactSchema, many=True)
     clues = fields.Nested(ClueSchema, many=True)

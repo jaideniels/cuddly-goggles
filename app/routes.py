@@ -106,9 +106,9 @@ class CardsByStackById(MethodView):
         return cards
 
     @auth.login_required
-    @stacks_blp.arguments(CardSchema(many=True))
-    @stacks_blp.response(200, CardSchema(many=True))
-    def post(self, cards, stack_id):
+    @stacks_blp.arguments(CardSchema)
+    @stacks_blp.response(200, CardSchema)
+    def post(self, card, stack_id):
         print("stack_id: " + stack_id)
 
         user = db.session.query(User).filter(User.name == auth.current_user()).one()
@@ -116,11 +116,21 @@ class CardsByStackById(MethodView):
 
         stack = db.session.query(Stack).filter(Stack.id == stack_id).one()
 
-        for card in cards:
-            stack.cards.append(card)
+        json = request.get_json()
+        card = Card(name=json['name'])
+
+        for json_fact in json['facts']:
+            json_fact_value = json_fact['fact']
+            print("json_fact_value: " + json_fact_value)
+            fact = Fact(fact=json_fact_value)
+            card.facts.append(fact)
+            clue = Clue(facts=[fact])
+            card.clues.append(clue)
+
+        stack.cards.append(card)
 
         db.session.commit()
-        return cards
+        return card
 
 
 
