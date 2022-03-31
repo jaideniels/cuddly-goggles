@@ -48,7 +48,6 @@ class Stacks(MethodView):
     @auth.login_required
     def get(self):
         user = db.session.query(User).filter(User.name == auth.current_user()).one()
-        print(user.name)
         stacks = db.session.query(Stack).\
             filter(Stack.users.any(User.id == user.id))
 
@@ -130,6 +129,37 @@ class CardsByStackById(MethodView):
         stack.cards.append(card)
 
         db.session.commit()
+        return card
+
+    @auth.login_required
+    @stacks_blp.arguments(CardSchema)
+    @stacks_blp.response(200, CardSchema)
+    def patch(self, card, stack_id):
+        user = db.session.query(User).filter(User.name == auth.current_user()).one()
+        # TODO: confirm user is actually allowed to do this
+
+        # add any new facts as clues
+        for fact in card.facts:
+            found = False
+            for clue in card.clues:
+                if (fact.id == clue.facts[0].id):
+                    found = True
+                    break
+            if not found:
+                card.clues.append(Clue(facts=[fact]))
+
+        # remove any clues for removed facts
+        for clue in card.clues:
+            found = False
+            for fact in card.facts:
+                if (fact.id == clue.facts[0].id):
+                    found = True
+                    break
+            if not found:
+                db.session.delete(clue)
+
+        db.session.commit()
+
         return card
 
 
