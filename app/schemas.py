@@ -55,6 +55,9 @@ class StackSchema(SQLAlchemyAutoSchema):
 class ScoreSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Score
-        include_relationships = True
+        include_relationships = False
+        include_fk = True
         load_instance = True
         sqla_session = db.session
+        dump_only = ('id')
+        dump_only = ('user_id')

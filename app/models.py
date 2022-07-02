@@ -11,7 +11,7 @@ class User(db.Model):
     # Columns
     name = db.Column(db.String(128), unique=True)
 
-    # Relationship
+    # Relationships
     stacks = association_proxy('user_stacks', 'stack',  creator=lambda stack: UserStack(stack=stack))
     scores = db.relationship('Score', back_populates='user')
 
@@ -62,7 +62,6 @@ class Fact(db.Model):
     clues = association_proxy('fact_clues', 'clue', creator=lambda clue: ClueFact(clue=clue))
 
 
-
 class Clue(db.Model):
     __tablename__ = 'clue'
 
@@ -78,7 +77,6 @@ class Clue(db.Model):
     facts = association_proxy('clue_facts', 'fact', creator=lambda fact: ClueFact(fact=fact))
 
 
-
 class Game(db.Model):
     __tablename__ = 'game'
 
@@ -90,7 +88,6 @@ class Game(db.Model):
 
     # Relationships
     scores = db.relationship('Score', back_populates='game')
-
 
 
 class Score(db.Model):
@@ -113,7 +110,6 @@ class Score(db.Model):
     game = db.relationship('Game', back_populates='scores')
 
 
-
 class UserStack(db.Model):
     __tablename__ = 'user_stack'
 
@@ -124,7 +120,6 @@ class UserStack(db.Model):
     # Relationships
     user = db.relationship('User',  backref=db.backref('user_stacks', cascade='all, delete-orphan'))
     stack = db.relationship('Stack', backref=db.backref('stack_users', cascade='all, delete-orphan'))
-
 
 
 class StackCard(db.Model):

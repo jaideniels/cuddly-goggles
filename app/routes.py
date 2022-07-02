@@ -163,27 +163,38 @@ class CardsByStackById(MethodView):
         return card
 
 
-
 @scores_blp.route('/scores')
 class Scores(MethodView):
 
     @scores_blp.arguments(ScoreSchema)
     @scores_blp.response(201, ScoreSchema)
     @auth.login_required
-    def post(self, score):
-        db.session.add(score)
+    def put(self, score):
+        user = db.session.query(User).filter(User.name == auth.current_user()).one()
+        game_id = 1
+
+        json = request.get_json()
+        
+        db_score = db.session.query(Score).filter(Score.user_id == user.id, 
+                                                  Score.game_id == game_id, 
+                                                  Score.clue_id == score.clue_id).one_or_none()
+        
+        if db_score is not None:
+            db_score.score  = score.score
+        else:
+            db_score = Score(user_id=user.id, game_id=game_id, clue_id=json['clue_id'], score=json['score'])
+            db.session.add(db_score)
+
         db.session.commit()
         return score
 
-
-@scores_blp.route('/users/<user_id>/scores')
-class ScoresByUserId(MethodView):
-
-    @scores_blp.response(200, ScoreSchema(many=True))
     @auth.login_required
-    def get(self, user_id):
-        user = db.session.query(User).get_or_404(user_id)
-        scores = user.scores
+    @scores_blp.response(200, ScoreSchema(many=True))
+    def get(self):
+        user = db.session.query(User).filter(User.name == auth.current_user()).one()
+
+        scores = db.session.query(Score).filter(Score.user_id == user.id).all()
+
         return scores
 
 
